@@ -1,0 +1,3 @@
+export const GUESSED_WORD = "GUESSED_WORD";
+export const HANDLE_GUESS = "HANDLE_GUESS";
+export const GENERATE_BUTTONS = "GENERATE_BUTTONS";
