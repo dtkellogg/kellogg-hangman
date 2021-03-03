@@ -1,4 +1,5 @@
 import React, { Component, useState, useContext } from "react";
+import { randomWord } from "./words";
 import "./Hangman.css";
 // import HangmanContext from "./context/hangmanContext";
 
@@ -15,8 +16,9 @@ const Hangman = () => {
 
   const maxWrong = 6;
   const images = [img0, img1, img2, img3, img4, img5, img6];
+  // const problem = randomWord();
 
-  const [answer, setAnswer] = useState("apple");
+  const [answer, setAnswer] = useState(randomWord());
   const [userRequest, setUserRequest] = useState({
     nWrong: 0,
     guessed: new Set(),
@@ -24,6 +26,8 @@ const Hangman = () => {
 
   const { nWrong, guessed } = userRequest;
 
+  console.log(answer);
+  // console.log(problem);
   // const [nWrong, setNWrong] = useState(0);
   // const [guessed, setGuessed] = useState(new Set());
 
@@ -34,6 +38,8 @@ const Hangman = () => {
   function guessedWord() {
     return answer.split("").map((ltr) => (guessed.has(ltr) ? ltr : "_"));
   }
+
+  console.log(answer);
 
   //   /** handleGuest: handle a guessed letter:
   //     - add to guessed letters
@@ -54,18 +60,43 @@ const Hangman = () => {
   //   /** generateButtons: return array of letter buttons to render */
   function generateButtons() {
     return "abcdefghijklmnopqrstuvwxyz".split("").map((ltr) => (
-      <button value={ltr} onClick={handleGuess} disabled={guessed.has(ltr)}>
+      <button
+        key={ltr}
+        value={ltr}
+        onClick={handleGuess}
+        disabled={guessed.has(ltr)}
+      >
         {ltr}
       </button>
     ));
   }
 
+  function reset() {
+    setUserRequest({
+      guessed: new Set(),
+      nWrong: 0,
+    });
+    setAnswer(randomWord());
+  }
+
+  const gameOver = nWrong >= maxWrong;
+  const isWinner = guessedWord().join("") === answer;
+  const altText = `${nWrong}/${maxWrong} guesses`;
+  let gameState = generateButtons();
+  if (isWinner) gameState = "You win!";
+  if (gameOver) gameState = "You lose!";
+
   return (
     <div className="Hangman">
       <h1>Hangman</h1>
-      <img src={images[nWrong]} alt="Current Hangman" />
-      <p className="Hangman-word">{guessedWord()}</p>
-      <p className="Hangman-btns">{generateButtons()}</p>{" "}
+      <img src={images[nWrong]} alt={altText} />
+      <p>Guessed wrong: {nWrong}</p>
+      <p className="Hangman-word">{!gameOver ? guessedWord() : answer}</p>
+      <p className="Hangman-btns">{gameState}</p>
+
+      <button id="reset" onClick={reset}>
+        Reset?
+      </button>
     </div>
   );
 };
