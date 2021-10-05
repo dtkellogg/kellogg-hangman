@@ -17,7 +17,7 @@ const HangmanState = (props) => {
 
   const [state, dispatch] = useReducer(HangmanReducer, initialState);
 
-    const [guess, setGuess] = useState("");
+  const [guess, setGuess] = useState("");
 
 
 
