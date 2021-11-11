@@ -1,5 +1,5 @@
 {
-  "name": "Hangman (Clone)",
+  "name": "hangman-hooks",
   "version": "1.0.0",
   "description": "Hangman game - based on Colt Steele's course work",
   "main": "server.js",
