@@ -1,4 +1,4 @@
-import React, { Component, useState, useContext } from "react";
+import React, { Component, useState, useContext, lazy } from "react";
 import { randomWord } from "./words";
 import "./Hangman.css";
 // import HangmanContext from "./context/hangmanContext";
@@ -12,11 +12,8 @@ import img5 from "./5.jpg";
 import img6 from "./6.jpg";
 
 const Hangman = () => {
-  // const { nWrong, guessed, answer } = useContext(HangmanContext);
-
   const maxWrong = 6;
   const images = [img0, img1, img2, img3, img4, img5, img6];
-  // const problem = randomWord();
 
   const [answer, setAnswer] = useState(randomWord());
   const [userRequest, setUserRequest] = useState({
@@ -26,25 +23,18 @@ const Hangman = () => {
 
   const { nWrong, guessed } = userRequest;
 
-  console.log(answer);
-  // console.log(problem);
-  // const [nWrong, setNWrong] = useState(0);
-  // const [guessed, setGuessed] = useState(new Set());
-
   /** guessedWord: show current-state of word:
-//     if guessed letters are {a,p,e}, show "app_e" for "apple"
-//   */
+    if guessed letters are {a,p,e}, show "app_e" for "apple"
+  */
 
   function guessedWord() {
     return answer.split("").map((ltr) => (guessed.has(ltr) ? ltr : "_"));
   }
 
-  console.log(answer);
-
-  //   /** handleGuest: handle a guessed letter:
-  //     - add to guessed letters
-  //     - if not in answer, increase number-wrong guesses
-  //   */
+  /** handleGuest: handle a guessed letter:
+    - add to guessed letters
+    - if not in answer, increase number-wrong guesses
+  */
 
   function handleGuess(e) {
     let ltr = e.target.value;
@@ -52,12 +42,9 @@ const Hangman = () => {
       guessed: guessed.add(ltr),
       nWrong: nWrong + (answer.includes(ltr) ? 0 : 1),
     });
-    // console.log(guessed);
-    // setUserRequest({nWrong: (nWrong + (answer.includes(ltr) ? 0 : 1))});
-    // console.log(nWrong);
   }
 
-  //   /** generateButtons: return array of letter buttons to render */
+    /** generateButtons: return array of letter buttons to render */
   function generateButtons() {
     return "abcdefghijklmnopqrstuvwxyz".split("").map((ltr) => (
       <button
